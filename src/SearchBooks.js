@@ -19,7 +19,7 @@ class SearchBooks extends Component {
 		if (this.state.query) {
 			BooksAPI.search(this.state.query).then((searchResult) => {
 				for (let book of searchResult) {
-					if (!book.shelf) {
+					if (book.shelf == null || book.shelf === undefined) {
 						book.shelf = 'none';
 					}
 				}

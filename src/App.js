@@ -35,21 +35,15 @@ class BooksApp extends React.Component {
     })))
   }
 
-  updateShelf = (book) => {
-    this.setState((state) => ({
-      shelf: state.books.filter((b) => b.name === book.name)
-    }
-    ))
-  }
-
-
   render() {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
           <ListBooks books={this.state.books} moveBook={this.updateShelf} />
         )}/>
-        <Route path="/search" component={SearchBooks}/>
+        <Route path="/search" render={() => (
+          <SearchBooks books={this.state.books} moveBook={this.updateShelf} />
+        )}/>
       </div>
     )
   } 
