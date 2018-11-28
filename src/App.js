@@ -15,7 +15,6 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     books: [], 
-    showSearchPage: false
   }
 
   componentDidMount() {
@@ -23,16 +22,18 @@ class BooksApp extends React.Component {
   }
 
   updateShelf = (book, shelf) => { 
-    BooksAPI.update(book, shelf).then(
-    this.setState((state) => ({ 
-      books: state.books.map(
-        function(b) {
-        if (b === book) {
-          b.shelf = shelf;
-        }
-        return b;       
-      }) 
-    })))
+    BooksAPI.update(book, shelf).then(() => { 
+      book.shelf = shelf;
+      this.setState((state) => ({ 
+        books: state.books.map(
+          function(b) {
+          if (b.id === book.id) {
+            b.shelf = shelf;
+          }
+          return b;       
+        }) 
+      }))
+    })
   }
 
   render() {

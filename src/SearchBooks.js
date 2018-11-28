@@ -11,22 +11,29 @@ class SearchBooks extends Component {
 	}
 	
 	updateQuery = (query) => {
-		this.setState( { query })
+		this.setState( { query }, () => {
+			BooksAPI.search(this.state.query).then((searchResult) => {
+				if (Array.isArray(searchResult)) {
+					for (let result of searchResult) {
+						for (let book of this.props.books) {
+							if (book.id === result.id) {
+								result.shelf = book.shelf;
+							}
+						}
+						if (result.shelf == null || result.shelf === undefined) {
+							result.shelf = 'none';
+						}
+					}
+					this.setState({ searchResult })
+				}
+				else {
+					this.setState({ searchResult: [] })
+				}	
+			})
+		})
 	}
 
 	render() {
-
-		if (this.state.query) {
-			BooksAPI.search(this.state.query).then((searchResult) => {
-				for (let book of searchResult) {
-					if (book.shelf == null || book.shelf === undefined) {
-						book.shelf = 'none';
-					}
-				}
-				this.setState({ searchResult })
-			})
-  	}
-	
 		return (
 			<div className="search-books">
 				<div className="search-books-bar">
