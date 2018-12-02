@@ -29,7 +29,6 @@ class BooksApp extends React.Component {
           hasBook = true;
         }
       }
-      console.log(hasBook);
       if (hasBook === true) {
         this.setState((state) => ({ 
           books: state.books.map(
@@ -42,10 +41,10 @@ class BooksApp extends React.Component {
         }))
       }
       else {
-        this.setState((state) => {
-          state.books.push(book);
-          console.log(state.books);
-        })
+        this.setState( (state) => {
+          book.shelf = shelf;
+          return { books: state.books.concat(book) }
+        });
       }
     })
   }
